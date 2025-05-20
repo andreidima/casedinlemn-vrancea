@@ -36,27 +36,40 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item me-3">
-                            <a class="nav-link active" aria-current="page" href="{{ route('proiecte.index', ['proiectTip' => 'proiecte']) }}">
-                                <i class="fa-solid fa-folder-open"></i> Proiecte
+                            <a class="nav-link active" aria-current="page" href="{{ route('produse.index') }}">
+                                <i class="fa-solid fa-box me-1"></i> Produse
                             </a>
                         </li>
                         <li class="nav-item me-3">
-                            <a class="nav-link active" aria-current="page" href="{{ route('membri.index') }}">
-                                <i class="fa-solid fa-user-group"></i> Membri
+                            <a class="nav-link active" aria-current="page" href="{{ route('miscari.intrari') }}">
+                                <i class="fa-solid fa-plus-circle me-1"></i> Intrări
                             </a>
                         </li>
                         <li class="nav-item me-3">
-                            <a class="nav-link active" aria-current="page" href="{{ route('clienti.index') }}">
-                                <i class="fa-solid fa-handshake"></i> Clienți
+                            <a class="nav-link active" aria-current="page" href="{{ route('miscari.iesiri') }}">
+                                <i class="fa-solid fa-minus-circle me-1"></i> Ieșiri
                             </a>
                         </li>
-                        @can('admin-action')
-                            <li class="nav-item me-3">
-                                <a class="nav-link active" aria-current="page" href="{{ route('users.index') }}">
-                                    <i class="fa-solid fa-users"></i> Utilizatori
-                                </a>
-                            </li>
-                        @endcan
+                        <li class="nav-item me-3 dropdown">
+                            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-cubes"></i> Resurse
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('categorii.index') }}">
+                                        <i class="fa-solid fa-tags"></i> Categorii produse
+                                    </a>
+                                </li>
+                                @can('admin-action')
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('users.index') }}">
+                                            <i class="fa-solid fa-users"></i> Utilizatori
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -65,7 +78,7 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">Login</a>
                                 </li>
                             @endif
 

@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-4 mb-3">
             <div class="card culoare2">
                 <div class="card-header text-center">Proiecte luna trecută</div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 
 @endsection
