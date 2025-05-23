@@ -40,6 +40,18 @@
         >
     </div>
 
+    <div class="col-lg-4 mb-4">
+        <label for="prag_minim" class="mb-0 ps-3">Prag minim stoc</label>
+        <input
+            type="number"
+            name="prag_minim"
+            id="prag_minim"
+            class="form-control bg-white rounded-3 {{ $errors->has('prag_minim') ? 'is-invalid' : '' }}"
+            value="{{ old('prag_minim', $produs->prag_minim ?? '') }}"
+            min="0"
+        >
+    </div>
+
     <div class="col-lg-4 mb-4 text-center" id="datePicker">
         <label for="data_procesare" class="mb-0 ps-0">Data procesare</label>
         <vue-datepicker-next

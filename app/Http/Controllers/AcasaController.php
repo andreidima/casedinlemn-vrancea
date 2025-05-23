@@ -5,29 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
-use App\Models\Proiect;
+use App\Models\Produs;
 use Illuminate\Support\Facades\DB;
 
 class AcasaController extends Controller
 {
     public function acasa()
     {
-        // Define date ranges
-        // $startOfThisMonth = Carbon::now()->startOfMonth();
-        // $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
-        // $endOfLastMonth   = Carbon::now()->subMonth()->endOfMonth();
-
-        // 1. Count projects by created_at
-        // $allProiecteCount   = Proiect::count();
-        // $proiecteThisMonth  = Proiect::whereDate('created_at', '>=', $startOfThisMonth)->count();
-        // $proiecteLastMonth  = Proiect::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->count();
+        $lowStock = Produs::whereColumn('cantitate','<=','prag_minim')->get();
 
         return view('acasa'
-            // , compact(
-                // 'allProiecteCount',
-                // 'proiecteThisMonth',
-                // 'proiecteLastMonth',
-            // )
+            , compact(
+                'lowStock',
+            )
         );
     }
 }

@@ -93,7 +93,9 @@
                 </thead>
                 <tbody>
                     @forelse($produse as $produs)
-                        <tr>
+                        <tr @class([
+                            'bg-danger' => $produs->cantitate <= $produs->prag_minim,
+                        ])>
                             <td>{{ ($produse->currentPage() - 1) * $produse->perPage() + $loop->index + 1 }}</td>
                             <td>{{ $produs->nume }}</td>
                             <td>{{ $produs?->categorie->nume }}</td>

@@ -21,9 +21,10 @@ class InventarController extends Controller
         }
 
         // grab filter inputs
-        $searchProdus = $request->query('searchProdus');
-        $searchUser   = $request->query('searchUser');
-        $searchIntervalData     = $request->query('searchIntervalData');
+        $searchProdus       = $request->query('searchProdus');
+        $searchUser         = $request->query('searchUser');
+        $searchIntervalData = $request->query('searchIntervalData');
+        $searchNrComanda    = $request->query('searchNrComanda');
 
         // base query
         $query = MiscareStoc::with(['produs','user'])
@@ -42,6 +43,9 @@ class InventarController extends Controller
             ->when($searchIntervalData, function ($q, $searchIntervalData) {
                 $dates = explode(',', $searchIntervalData);
                 $q->whereBetween('created_at', [$dates[0] ?? null, $dates[1] ?? null]);
+            })
+            ->when($tip === 'iesiri' && $searchNrComanda, function($q) use ($searchNrComanda) {
+                $q->where('nr_comanda', 'LIKE', $searchNrComanda);
             });
 
         $movements = $query
@@ -56,7 +60,7 @@ class InventarController extends Controller
 
         return view('miscari.index', compact(
             'movements','tip',
-            'searchProdus','searchUser','searchIntervalData','users'
+            'searchNrComanda', 'searchProdus','searchUser','searchIntervalData','users'
         ));
     }
 
@@ -80,10 +84,15 @@ class InventarController extends Controller
      */
     public function update(Request $request, Produs $produs)
     {
-        $data = $request->validate([
-            'tip'       => 'required|in:intrare,iesire',
-            'cantitate' => 'required|integer|min:1',
-        ]);
+        $rules = [
+            'tip'         => 'required|in:intrare,iesire',
+            'cantitate'   => 'required|integer|min:1',
+        ];
+        if ($request->tip === 'iesire') {
+            $rules['nr_comanda'] = 'required|string|max:50';
+        }
+
+        $data = $request->validate($rules);
 
         // Compute the signed delta
         $delta = $data['tip'] === 'intrare'
@@ -98,11 +107,12 @@ class InventarController extends Controller
                 ->withInput();
         }
 
-        DB::transaction(function () use ($produs, $delta) {
+        DB::transaction(function () use ($produs, $delta, $data) {
             MiscareStoc::create([
-                'produs_id' => $produs->id,
-                'user_id'   => Auth::id(),
-                'delta'     => $delta,
+                'produs_id'     => $produs->id,
+                'user_id'       => Auth::id(),
+                'delta'         => $delta,
+                'nr_comanda'  => $data['nr_comanda'] ?? null,
             ]);
             $produs->update(['cantitate' => $produs->cantitate + $delta]);
         });

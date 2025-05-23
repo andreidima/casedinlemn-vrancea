@@ -17,6 +17,7 @@ class ProdusRequest extends FormRequest
             'categorie_id'    => 'required|exists:categorii,id',
             'nume'            => 'required|string|max:255',
             'cantitate'       => 'nullable|integer',
+            'prag_minim'      => 'required|integer',
             'data_procesare'  => 'nullable|date',
             'lungime'         => 'nullable|numeric',
             'latime'          => 'nullable|numeric',

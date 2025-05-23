@@ -16,7 +16,18 @@
         <form class="needs-validation" novalidate method="GET" action="{{ url()->current() }}">
             @csrf
             <div class="row mb-2 custom-search-form justify-content-center">
-                <div class="col-lg-4">
+                @if($tip === 'iesiri')
+                    <div class="col-lg-2">
+                        <input
+                            type="text"
+                            name="searchNrComanda"
+                            id="searchNrComanda"
+                            class="form-control rounded-3"
+                            placeholder="Nr. comandă"
+                            value="{{ $searchNrComanda }}">
+                    </div>
+                @endif
+                <div class="col-lg-3">
                     <input
                         type="text"
                         class="form-control rounded-3"
@@ -40,7 +51,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div id="datePicker" class="col-lg-5 d-flex align-items-center">
+                <div id="datePicker" class="col-lg-4 d-flex align-items-center">
                     <label for="searchIntervalData" class="mb-0 ps-3">Data</label>
                     <vue-datepicker-next
                         id="searchIntervalData"
@@ -89,20 +100,26 @@
             <thead class="text-white">
                 <tr>
                     <th class="text-white culoare2"><i class="fa-solid fa-hashtag"></i></th>
-                    <th class="text-white culoare2"><i class="fa-solid fa-box me-1"></i> Produs</th>
-                    <th class="text-white culoare2"><i class="fa-solid fa-layer-group me-1"></i> Cantitate</th>
-                    <th class="text-white culoare2"><i class="fa-solid fa-user me-1"></i> Utilizator</th>
-                    <th class="text-white culoare2"><i class="fa-solid fa-calendar-days me-1"></i> Data</th>
-                    <th class="text-white culoare2 text-end"><i class="fa-solid fa-cogs me-1"></i> Acțiuni</th>
+                    @if ($tip === 'iesiri')
+                        <th class="text-white culoare2"><i class="fa-solid fa-receipt"></i> Nr. Comandă</th>
+                    @endif
+                    <th class="text-white culoare2"><i class="fa-solid fa-box"></i> Produs</th>
+                    <th class="text-white culoare2"><i class="fa-solid fa-layer-group"></i> Cantitate</th>
+                    <th class="text-white culoare2"><i class="fa-solid fa-user"></i> Utilizator</th>
+                    <th class="text-white culoare2"><i class="fa-solid fa-calendar-days"></i> Data</th>
+                    <th class="text-white culoare2 text-end"><i class="fa-solid fa-cogs"></i> Acțiuni</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($movements as $m)
                     <tr>
                         <td>{{ ($movements->currentPage() - 1) * $movements->perPage() + $loop->index + 1 }}</td>
-                        <td>{{ $m->produs->nume }}</td>
+                        @if ($tip === 'iesiri')
+                            <td> {{ $m->nr_comanda }} </td>
+                        @endif
+                        <td>{{ $m->produs?->nume }}</td>
                         <td>{{ abs($m->delta) }}</td>
-                        <td>{{ $m->user->name }}</td>
+                        <td>{{ $m->user?->name }}</td>
                         <td>{{ $m->created_at->format('d.m.Y H:i') }}</td>
                         <td class="text-end">
                             <button
@@ -117,7 +134,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted py-3">
+                        <td colspan="{{ $tip === 'iesiri' ? 7:6 }}" class="text-center text-muted py-3">
                             <i class="fa-solid fa-exclamation-circle me-1"></i>
                             Nu există mișcări.
                         </td>

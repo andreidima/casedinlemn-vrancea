@@ -19,6 +19,7 @@
           <div class="row mb-3">
             <div class="col-md-6 mb-2"><strong>Nume:</strong> {{ $produs->nume }}</div>
             <div class="col-md-6 mb-2"><strong>Cantitate:</strong> {{ $produs->cantitate ?? '-' }}</div>
+            <div class="col-md-6 mb-2"><strong>Prag minim stoc:</strong> {{ $produs->prag_minim ?? '-' }}</div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6 mb-2"><strong>Data Procesare:</strong> {{ $produs->data_procesare?->format('d.m.Y') ?? '-' }}</div>

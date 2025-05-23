@@ -31,7 +31,7 @@ Route::middleware(['auth', 'checkUserActiv'])->group(function () {
     )->name('produse.eticheta');
 
     // 2️⃣ Inventory adjustment UI (scan target)
-    //    GET  /inventar/{produs}   → show +/– buttons
+    //    GET  /inventar/{produs}   →
     //    POST /inventar/{produs}   → apply the change
     Route::get(
         'inventar/{produs}',

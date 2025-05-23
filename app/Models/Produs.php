@@ -16,6 +16,7 @@ class Produs extends Model
     protected $casts = [
         'data_procesare' => 'date',
         'cantitate' => 'integer',
+        'prag_minim' => 'integer',
         'lungime' => 'float',
         'latime' => 'float',
         'grosime' => 'float',

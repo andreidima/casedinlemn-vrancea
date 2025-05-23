@@ -9,7 +9,7 @@ class MiscareStoc extends Model
 {
     protected $table = 'miscari_stoc';
     public $timestamps = false;    // we only have created_at
-    protected $fillable = ['produs_id','user_id','delta'];
+    protected $fillable = ['produs_id','user_id','delta', 'nr_comanda'];
 
     protected $casts = [
         'created_at' => 'datetime',

@@ -5,10 +5,7 @@
 <div class="container py-5">
     <h2 class="mb-4">Actualizează stoc pentru: {{ $produs->nume }}</h2>
 
-{{-- Success message --}}
-@if(session('status'))
-    <div class="alert alert-success">{{ session('status') }}</div>
-@endif
+@include('errors.errors')
 
 {{-- Current stock display --}}
 <div class="mb-4">
@@ -24,7 +21,9 @@
                 Intrare în stoc
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ route('inventar.update', $produs) }}" novalidate>
+                <form method="POST" action="{{ route('inventar.update', $produs) }}" novalidate
+                    onsubmit="disableSubmit(this)"
+                >
                     @csrf
                     <input type="hidden" name="tip" value="intrare">
 
@@ -58,7 +57,9 @@
                 Ieșire din stoc
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ route('inventar.update', $produs) }}" novalidate>
+                <form method="POST" action="{{ route('inventar.update', $produs) }}" novalidate
+                    onsubmit="disableSubmit(this)"
+                >
                     @csrf
                     <input type="hidden" name="tip" value="iesire">
 
@@ -78,6 +79,19 @@
                             @endif
                         @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="nr_comanda" class="form-label">Număr comandă</label>
+                        <input
+                            type="text"
+                            name="nr_comanda"
+                            id="nr_comanda"
+                            class="form-control @error('nr_comanda') is-invalid @enderror"
+                            value="{{ old('nr_comanda') }}">
+                        @error('nr_comanda')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
 
                     <button type="submit" class="btn btn-danger w-100">Scoate</button>
                 </form>
@@ -87,4 +101,19 @@
 </div>
 
 </div>
+
+<script>
+  /**
+   * Disable all submit buttons in the form to prevent double-submits.
+   * You could also hide them instead (form.querySelector('button').style.display = 'none').
+   */
+  function disableSubmit(form) {
+    const buttons = form.querySelectorAll('button[type="submit"]');
+    buttons.forEach(btn => {
+      btn.disabled = true;
+      btn.innerText = 'Se procesează…';  // optional: give the user feedback
+    });
+  }
+</script>
+
 @endsection
