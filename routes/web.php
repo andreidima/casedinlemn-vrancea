@@ -7,6 +7,7 @@ use App\Http\Controllers\ProdusController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InventarController;
+use App\Http\Controllers\ComenziIesiriController;
 
 
 Auth::routes(['register' => false, 'password.request' => false, 'reset' => false]);
@@ -43,6 +44,7 @@ Route::middleware(['auth', 'checkUserActiv'])->group(function () {
     )->name('inventar.update');
 
 
+
     // Movements listing (intrări / ieșiri)
     Route::get('miscari/intrari', [InventarController::class, 'index'])
          ->name('miscari.intrari')
@@ -55,4 +57,18 @@ Route::middleware(['auth', 'checkUserActiv'])->group(function () {
     // Undo a movement
     Route::post('miscari/{miscare}/anuleaza', [InventarController::class, 'undo'])
          ->name('miscari.anuleaza');
+
+
+
+    // 1. Listare comenzi de ieșiri (paginated, cu căutare după nr. comandă)
+    Route::get('comenzi-iesiri', [ComenziIesiriController::class, 'index'])
+         ->name('comenzi.iesiri.index');
+
+    // 2. Vizualizare detaliu comandă (toate ieșirile pentru un nr. de comandă)
+    Route::get('comenzi-iesiri/{nr_comanda}', [ComenziIesiriController::class, 'show'])
+         ->name('comenzi.iesiri.show');
+
+    // 3. Generare/descărcare PDF pentru o comandă
+    Route::get('comenzi-iesiri/{nr_comanda}/pdf', [ComenziIesiriController::class, 'pdf'])
+         ->name('comenzi.iesiri.pdf');
 });

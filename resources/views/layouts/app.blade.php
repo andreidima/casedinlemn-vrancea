@@ -41,6 +41,11 @@
                             </a>
                         </li>
                         <li class="nav-item me-3">
+                            <a class="nav-link" href="{{ route('comenzi.iesiri.index') }}">
+                                <i class="fa-solid fa-list-check me-1"></i> Comenzi
+                            </a>
+                        </li>
+                        <li class="nav-item me-3">
                             <a class="nav-link active" aria-current="page" href="{{ route('miscari.intrari') }}">
                                 <i class="fa-solid fa-plus-circle me-1"></i> Intrări
                             </a>
